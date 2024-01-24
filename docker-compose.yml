@@ -1,0 +1,72 @@
+version: "3"
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: reproxy
+    restart: always
+    image: nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - dcm4che
+    depends_on:
+      - keycloak
+
+  keycloak:
+    image: jboss/keycloak
+    container_name: keycloak
+    restart: always
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - DB_VENDOR=POSTGRES
+      - DB_ADDR=postgres
+      - DB_DATABASE=keycloak
+      - DB_USER=keycloak
+      - DB_PASSWORD=keycloak
+        #      - KEYCLOAK_FRONTEND_URL=https://dcm4che.januo.io/
+        #      - KEYCLOAK_BASE_URL=https://dcm4che.januo.io/
+      - PROXY_ADDRESS_FORWARDING=true
+      - DEBUG=true
+      - DEBUG_PORT='*:8787'
+      - KEYCLOAK_LOGLEVEL=INFO
+      - ROOT_LOGLEVEL=DEBUG
+      - JAVA_OPTS=-server -Xms64m -Xmx512m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true --add-exports=java.desktop/sun.awt=ALL-UNNAMED --add-exports=java.naming/com.sun.jndi.ldap=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.security=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.management/javax.management=ALL-UNNAMED --add-opens=java.naming/javax.naming=ALL-UNNAMED
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - dcm4che
+
+  postgres:
+    image: postgres
+    container_name: dbdata
+    restart: always
+    environment:
+      - POSTGRES_DB=keycloak
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD=keycloak
+    ports:
+      - "5432:5432"
+    networks:
+      - dcm4che
+    volumes:
+      - /var/local/dcm4che/db:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1024M
+        reservations:
+          cpus: "1"
+          memory: 512M
+networks:
+  dcm4che:
+    name: dcm4che
+    driver: bridge
+
