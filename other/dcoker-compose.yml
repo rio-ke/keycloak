@@ -1,0 +1,36 @@
+version: '3'
+
+volumes:
+  mysql_data:
+      driver: local
+
+services:
+  mysql:
+      image: mysql:latest
+      volumes:
+        - mysql_data:/var/lib/mysql
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: keycloak
+        MYSQL_USER: keycloak
+        MYSQL_PASSWORD: password
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.0.1
+    environment:
+      DB_VENDOR: MYSQL
+      DB_ADDR: mysql
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: password
+      KEYCLOAK_USER: user
+      KEYCLOAK_PASSWORD: keycloak
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: keycloak
+      KC_HOSTNAME_ADMIN_URL: http://localhost:8888
+    ports:
+      - 8080:8080
+      - 8888:8080
+    depends_on:
+      - mysql
+    command: start-dev
