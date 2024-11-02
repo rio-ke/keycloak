@@ -1,3 +1,11 @@
+_Reference_
+```bash
+https://www.fatlan.com/13-07-2023-keycloak-21-install/
+```
+```bash
+https://jeffreybostoen.be/installing-keycloak-on-ubuntu-server-22-04/
+```
+
 ```cmd
 /opt/keycloak/bin/kc.sh start --hostname=ubuntu01 \
     --http-enabled=true --http-port=8080 \
