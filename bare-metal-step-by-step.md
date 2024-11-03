@@ -261,6 +261,7 @@ Group=keycloak
 LimitNOFILE=102642
 PIDFile=/run/keycloak/keycloak.pid
 ExecStart=/opt/keycloak/bin/kc.sh start --optimized
+Environment=JAVA_OPTS_KC_HEAP="-XX:MinHeapFreeRatio=20 -XX:MaxHeapFreeRatio=30 -XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=65"
 StandardOutput=file:/var/log/keycloak/standard.log
 StandardError=file:/var/log/keycloak/error.log
 
