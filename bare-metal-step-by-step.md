@@ -43,6 +43,8 @@ _Config_
 
 ```cmd
 sudo -i -u postgres
+```
+```sql
 psql
 ```
 ```sql
