@@ -66,7 +66,8 @@ sudo vim /etc/postgresql/14/main/pg_hba.conf
 _Change peer to md5_
 
 ```ini
-local   all             all                                     md5
+#local   all             all                                     md5
+host    all    all    0.0.0.0/0    md5
 ```
 ```cmd
 sudo systemctl restart postgresql
