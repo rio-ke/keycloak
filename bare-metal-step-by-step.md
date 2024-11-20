@@ -246,6 +246,11 @@ Create the temp admin username and password to access the keycloak web console.
 # Enter username [temp-admin]: xxx
 # Enter password [temp-admin]: xxx
 ```
+```bash
+cd /opt/keycloak-26.0.0/bin
+./kc.sh bootstrap-admin user
+/opt/keycloak-26.0.0/bin/kc.sh start
+```
 _Run keycloak manually_
 
 ```cmd
