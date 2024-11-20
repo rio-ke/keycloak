@@ -65,6 +65,9 @@ local   all             all                                     md5
 ```cmd
 sudo systemctl restart postgresql
 ```
+```cmd
+sudo systemctl status postgresql
+```
 
 _**Configure Nginx as a service and create two virtual hosts to access Keycloak as a domain-based web console**_
 
