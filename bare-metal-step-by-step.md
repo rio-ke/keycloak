@@ -20,12 +20,18 @@ java -version
 
 Download the keycloak package from the official site
 
-```console
+```cmd
 cd /opt
-sudo wget -O keycloak.tar.gz https://github.com/keycloak/keycloak/releases/download/26.0.5/keycloak-26.0.5.tar.gz
+#sudo wget -O keycloak.tar.gz https://github.com/keycloak/keycloak/releases/download/26.0.5/keycloak-26.0.5.tar.gz
 sudo mkdir -p /opt/keycloak
 sudo tar -xzvf keycloak.tar.gz -C /opt/keycloak --strip-components=1
 sudo rm keycloak.tar.gz
+```
+* method_2
+```cmd
+cd /opt
+sudo wget https://github.com/keycloak/keycloak/releases/download/26.0.5/keycloak-26.0.5.tar.gz
+sudo tar -xzvf keycloak-26.0.5.tar.gz
 ```
 
 **Configure PostgreSQL as a service and create the credentials to store Keycloak data in the PostgreSQL server**
