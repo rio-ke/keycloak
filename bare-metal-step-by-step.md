@@ -33,7 +33,7 @@ sudo rm keycloak.tar.gz
 _Install_
 ```console
 sudo apt update
-sudo apt install postgresql postgresql-contrib
+sudo apt install postgresql postgresql-contrib -y
 ```
 ```cmd
 sudo systemctl start postgresql
