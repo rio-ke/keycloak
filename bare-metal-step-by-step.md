@@ -60,6 +60,17 @@ GRANT ALL PRIVILEGES ON DATABASE keycloak TO keycloak;
 ```
 _Configure PostgreSQL to Allow Password Authentication_
 
+**_Check psql_conf_**
+```cmd
+vim /etc/postgresql/16/main/postgresql.conf
+```
+```conf
+listen_addresses = '*'
+```
+```cmd
+ss -tulpn
+```
+
 ```cmd
 sudo vim /etc/postgresql/14/main/pg_hba.conf
 ```
@@ -74,6 +85,9 @@ sudo systemctl restart postgresql
 ```
 ```cmd
 sudo systemctl status postgresql
+```
+```sql
+psql -h 10.103.2.130 -U dbadmin -d keycloak
 ```
 
 _**Configure Nginx as a service and create two virtual hosts to access Keycloak as a domain-based web console**_
