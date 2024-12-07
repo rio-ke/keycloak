@@ -258,6 +258,8 @@ sudo chown -R keycloak:keycloak /var/log/keycloak
 ```
 ```cmd
 export JAVA_OPTS_KC_HEAP="-XX:MinHeapFreeRatio=20 -XX:MaxHeapFreeRatio=30 -XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=65"
+export JAVA_OPTS="-Xms2g -Xmx3g -XX:+UseG1GC"
+export JAVA_OPTS_APPEND="-Djava.net.preferIPv4Stack=true"
 ```
 
 Create the temp admin username and password to access the keycloak web console.
@@ -267,10 +269,12 @@ Create the temp admin username and password to access the keycloak web console.
 # Enter username [temp-admin]: xxx
 # Enter password [temp-admin]: xxx
 ```
-```bash
+```cmd
 cd /opt/keycloak-26.0.0/bin
 ./kc.sh bootstrap-admin user
-/opt/keycloak-26.0.0/bin/kc.sh start
+./kc.sh build
+./kc.sh start
+#/opt/keycloak-26.0.0/bin/kc.sh start
 ```
 _Run keycloak manually_
 
@@ -291,10 +295,10 @@ User=keycloak
 Group=keycloak
 LimitNOFILE=102642
 PIDFile=/run/keycloak/keycloak.pid
-ExecStart=/opt/keycloak/bin/kc.sh start --optimized
+ExecStart=/opt/keycloak-26.0.5/bin/kc.sh start
 Environment=JAVA_OPTS_KC_HEAP="-XX:MinHeapFreeRatio=20 -XX:MaxHeapFreeRatio=30 -XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=65"
-StandardOutput=file:/var/log/keycloak/standard.log
-StandardError=file:/var/log/keycloak/error.log
+Environment="JAVA_OPTS=-Xms2g -Xmx3g -XX:+UseG1GC"
+Environment=JAVA_OPTS_APPEND="-Djava.net.preferIPv4Stack=true"
 
 [Install]
 WantedBy=multi-user.target
